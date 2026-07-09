@@ -1,9 +1,10 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { ChevronDown } from "lucide-react"
+import { useInViewOnce } from "@/hooks/use-in-view-once"
+import { revealUp } from "@/lib/animations"
 
 const services = [
   {
@@ -39,8 +40,7 @@ const services = [
 ]
 
 export function ServicesSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const { ref, isInView } = useInViewOnce()
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
 
   return (
@@ -48,9 +48,7 @@ export function ServicesSection() {
       <div className="max-w-7xl mx-auto">
         {/* Section label */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
+          {...revealUp(isInView)}
           className="text-xs font-medium tracking-wider text-muted-foreground mb-6"
         >
           03 / SERVICES
@@ -58,9 +56,7 @@ export function ServicesSection() {
 
         {/* Title */}
         <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          {...revealUp(isInView, { y: 40, duration: 0.6, delay: 0.1 })}
           className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter mb-16"
         >
           What <span className="font-serif italic font-normal text-muted-foreground">I</span> Build
@@ -71,9 +67,7 @@ export function ServicesSection() {
           {services.map((service, index) => (
             <motion.div
               key={service.number}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+              {...revealUp(isInView, { y: 30, delay: 0.2 + index * 0.1 })}
               className="border-t border-border"
             >
               <button

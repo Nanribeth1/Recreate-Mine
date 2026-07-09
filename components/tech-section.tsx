@@ -1,8 +1,8 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
-import { useRef } from "react"
+import { useInViewOnce } from "@/hooks/use-in-view-once"
+import { revealUp, revealScale } from "@/lib/animations"
 
 const technologies = [
   "Next.js", "React", "Django", "Go", "Node.js",
@@ -11,8 +11,7 @@ const technologies = [
 ]
 
 export function TechSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const { ref, isInView } = useInViewOnce()
 
   return (
     <section className="py-24 px-6 md:px-12 lg:px-20 bg-background" ref={ref}>
@@ -21,18 +20,14 @@ export function TechSection() {
           {/* Left side - titles */}
           <div>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5 }}
+              {...revealUp(isInView)}
               className="text-xs font-medium tracking-wider text-muted-foreground mb-6"
             >
               TECHNOLOGIES
             </motion.p>
 
             <motion.h2
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
+              {...revealUp(isInView, { y: 40, duration: 0.6, delay: 0.1 })}
               className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter leading-tight"
             >
               <span className="flex flex-wrap">
@@ -52,18 +47,14 @@ export function TechSection() {
             </motion.h2>
 
             <motion.h2
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              {...revealUp(isInView, { y: 40, duration: 0.6, delay: 0.2 })}
               className="text-5xl sm:text-6xl md:text-7xl font-serif italic text-muted-foreground tracking-tight mt-4"
             >
               Engineered.
             </motion.h2>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              {...revealUp(isInView, { delay: 0.3 })}
               className="text-base text-muted-foreground mt-8 max-w-md"
             >
               PRODUCTION-GRADE SYSTEMS BUILT WITH<br />
@@ -74,9 +65,7 @@ export function TechSection() {
             <div className="flex gap-12 mt-12">
               <div>
                 <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.4 }}
+                  {...revealUp(isInView, { delay: 0.4 })}
                   className="text-4xl font-black"
                 >
                   5+
@@ -85,9 +74,7 @@ export function TechSection() {
               </div>
               <div>
                 <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.5 }}
+                  {...revealUp(isInView, { delay: 0.5 })}
                   className="text-4xl font-black"
                 >
                   50+
@@ -96,9 +83,7 @@ export function TechSection() {
               </div>
               <div>
                 <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.6 }}
+                  {...revealUp(isInView, { delay: 0.6 })}
                   className="text-4xl font-black"
                 >
                   14+
@@ -110,17 +95,13 @@ export function TechSection() {
 
           {/* Right side - tech grid */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            {...revealScale(isInView, { duration: 0.6, delay: 0.3 })}
             className="flex flex-wrap gap-3"
           >
             {technologies.map((tech, index) => (
               <motion.span
                 key={tech}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: 0.4 + index * 0.05 }}
+                {...revealUp(isInView, { duration: 0.4, delay: 0.4 + index * 0.05 })}
                 className="px-5 py-3 bg-secondary text-sm font-medium tracking-wider rounded-full hover:bg-primary hover:text-primary-foreground transition-colors cursor-default"
               >
                 {tech}

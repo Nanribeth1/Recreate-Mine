@@ -1,9 +1,9 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
-import { useRef } from "react"
 import Link from "next/link"
+import { useInViewOnce } from "@/hooks/use-in-view-once"
+import { revealUp } from "@/lib/animations"
 import { ArrowUpRight, Mail, Github, Linkedin, Twitter } from "lucide-react"
 
 const socialLinks = [
@@ -14,8 +14,7 @@ const socialLinks = [
 ]
 
 export function ContactSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const { ref, isInView } = useInViewOnce()
 
   return (
     <section className="py-24 px-6 md:px-12 lg:px-20 bg-primary text-primary-foreground" ref={ref}>
@@ -24,18 +23,14 @@ export function ContactSection() {
           {/* Left side */}
           <div>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5 }}
+              {...revealUp(isInView)}
               className="text-xs font-medium tracking-wider text-primary-foreground/60 mb-6"
             >
               06 / CONTACT
             </motion.p>
 
             <motion.h2
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
+              {...revealUp(isInView, { y: 40, duration: 0.6, delay: 0.1 })}
               className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter mb-8"
             >
               Let&apos;s <span className="font-serif italic font-normal text-primary-foreground/60">Build</span>
@@ -44,19 +39,13 @@ export function ContactSection() {
             </motion.h2>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              {...revealUp(isInView, { delay: 0.2 })}
               className="text-lg text-primary-foreground/70 max-w-md mb-8"
             >
               Have a project in mind? I&apos;m currently available for freelance work and exciting opportunities.
             </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
+            <motion.div {...revealUp(isInView, { delay: 0.3 })}>
               <Link
                 href="mailto:hello@cybersage.com"
                 className="inline-flex items-center gap-2 bg-primary-foreground text-primary px-6 py-3 rounded-full text-sm font-medium tracking-wider hover:bg-primary-foreground/90 transition-colors"
@@ -70,9 +59,7 @@ export function ContactSection() {
           {/* Right side - social links */}
           <div className="flex flex-col justify-end">
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              {...revealUp(isInView, { delay: 0.4 })}
               className="text-xs font-medium tracking-wider text-primary-foreground/60 mb-6"
             >
               CONNECT
@@ -82,9 +69,7 @@ export function ContactSection() {
               {socialLinks.map((link, index) => (
                 <motion.div
                   key={link.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                  {...revealUp(isInView, { delay: 0.5 + index * 0.1 })}
                 >
                   <Link
                     href={link.href}

@@ -1,9 +1,10 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
-import { useRef } from "react"
 import { ArrowUpRight } from "lucide-react"
+import { useInViewOnce } from "@/hooks/use-in-view-once"
+import { revealUp } from "@/lib/animations"
+import { Tag } from "@/components/tag"
 
 const projects = [
   {
@@ -33,8 +34,7 @@ const projects = [
 ]
 
 export function WorkSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const { ref, isInView } = useInViewOnce()
 
   return (
     <section id="work" className="py-24 bg-primary text-primary-foreground" ref={ref}>
@@ -43,17 +43,13 @@ export function WorkSection() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5 }}
+              {...revealUp(isInView)}
               className="text-xs font-medium tracking-wider text-primary-foreground/60"
             >
               02 / WORK <span className="ml-4">17 PROJECTS</span>
             </motion.p>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              {...revealUp(isInView, { delay: 0.1 })}
               className="text-xs font-medium tracking-wider text-primary-foreground/60"
             >
               000% <span className="ml-2">OVERVIEW</span>
@@ -62,25 +58,19 @@ export function WorkSection() {
 
           <div className="text-center py-20">
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              {...revealUp(isInView, { delay: 0.2 })}
               className="text-xs font-medium tracking-wider text-primary-foreground/60 mb-4"
             >
               SELECTED WORK · 17 PROJECTS
             </motion.p>
             <motion.h2
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              {...revealUp(isInView, { y: 40, duration: 0.6, delay: 0.3 })}
               className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter"
             >
               Selected<span className="font-serif italic font-normal text-primary-foreground/60">Work</span>
             </motion.h2>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              {...revealUp(isInView, { delay: 0.4 })}
               className="text-xs font-medium tracking-wider text-primary-foreground/60 mt-8"
             >
               SCROLL TO EXPLORE
@@ -96,9 +86,7 @@ export function WorkSection() {
             {projects.map((project, index) => (
               <motion.div
                 key={project.title}
-                initial={{ opacity: 0, y: 40 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
+                {...revealUp(isInView, { y: 40, duration: 0.6, delay: 0.5 + index * 0.1 })}
                 className="group relative bg-primary-foreground/5 rounded-2xl overflow-hidden border border-primary-foreground/10 hover:border-primary-foreground/30 transition-all duration-300"
               >
                 {/* Project image */}
@@ -129,12 +117,9 @@ export function WorkSection() {
 
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2.5 py-1 bg-primary-foreground/10 text-[10px] font-medium tracking-wider rounded-full"
-                      >
+                      <Tag key={tag} className="px-2.5 py-1 bg-primary-foreground/10 text-[10px]">
                         {tag}
-                      </span>
+                      </Tag>
                     ))}
                   </div>
                 </div>

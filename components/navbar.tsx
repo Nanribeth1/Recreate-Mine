@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRight } from "lucide-react"
+import { LogoMark } from "@/components/logo-mark"
 
 const navLinks = [
   { href: "#work", label: "WORK" },
@@ -35,10 +36,7 @@ export function Navbar() {
       >
         <nav className="flex items-center gap-2 bg-primary/95 backdrop-blur-sm text-primary-foreground px-2 py-2 rounded-full">
           <Link href="/" className="flex items-center gap-2 px-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 via-yellow-400 to-orange-500 flex items-center justify-center">
-              <span className="text-xs font-bold text-black">DJN</span>
-            </div>
-            <span className="text-sm font-medium tracking-wide hidden sm:block">DJ NANRIBETH</span>
+            <LogoMark initials="DJN" label="DJ NANRIBETH" labelClassName="hidden sm:block" />
           </Link>
 
           <div className="hidden md:flex items-center gap-1">
