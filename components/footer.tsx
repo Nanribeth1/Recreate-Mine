@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { ArrowUp } from "lucide-react"
+import { LogoMark } from "@/components/logo-mark"
 
 export function Footer() {
   const scrollToTop = () => {
@@ -15,10 +16,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 via-yellow-400 to-orange-500 flex items-center justify-center">
-              <span className="text-xs font-bold text-black">CS</span>
-            </div>
-            <span className="text-sm font-medium tracking-wide">CYBERSAGE</span>
+            <LogoMark initials="CS" label="CYBERSAGE" />
           </Link>
 
           {/* Copyright */}

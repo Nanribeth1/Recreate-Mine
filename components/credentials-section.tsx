@@ -1,10 +1,11 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
-import { useRef } from "react"
 import { ArrowUpRight, Download } from "lucide-react"
 import Link from "next/link"
+import { useInViewOnce } from "@/hooks/use-in-view-once"
+import { revealUp } from "@/lib/animations"
+import { Tag } from "@/components/tag"
 
 const certifications = [
   {
@@ -30,17 +31,14 @@ const certifications = [
 const resumeTags = ["NEXT.JS", "GO", "DJANGO", "POSTGRESQL", "AWS", "DOCKER"]
 
 export function CredentialsSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const { ref, isInView } = useInViewOnce()
 
   return (
     <section id="credentials" className="py-24 px-6 md:px-12 lg:px-20 bg-background" ref={ref}>
       <div className="max-w-7xl mx-auto">
         {/* Section label */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
+          {...revealUp(isInView)}
           className="text-xs font-medium tracking-wider text-muted-foreground mb-6"
         >
           05 / CREDENTIALS
@@ -48,9 +46,7 @@ export function CredentialsSection() {
 
         {/* Title */}
         <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          {...revealUp(isInView, { y: 40, duration: 0.6, delay: 0.1 })}
           className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter mb-16"
         >
           Proof <span className="font-serif italic font-normal text-muted-foreground">of</span> Work
@@ -59,9 +55,7 @@ export function CredentialsSection() {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Resume card */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            {...revealUp(isInView, { y: 30, duration: 0.6, delay: 0.2 })}
             className="bg-secondary rounded-2xl p-8"
           >
             <p className="text-[10px] font-medium tracking-wider text-muted-foreground mb-4">
@@ -76,12 +70,9 @@ export function CredentialsSection() {
             {/* Tags */}
             <div className="flex flex-wrap gap-2 mb-8">
               {resumeTags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2.5 py-1 bg-background text-[10px] font-medium tracking-wider rounded-full"
-                >
+                <Tag key={tag} className="px-2.5 py-1 bg-background text-[10px]">
                   {tag}
-                </span>
+                </Tag>
               ))}
             </div>
 
@@ -97,9 +88,7 @@ export function CredentialsSection() {
           {/* Certifications */}
           <div>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              {...revealUp(isInView, { delay: 0.3 })}
               className="text-xs font-medium tracking-wider text-muted-foreground mb-6"
             >
               CERTIFICATIONS
@@ -109,9 +98,7 @@ export function CredentialsSection() {
               {certifications.map((cert, index) => (
                 <motion.div
                   key={cert.number}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                  {...revealUp(isInView, { delay: 0.4 + index * 0.1 })}
                 >
                   <Link
                     href="#"
@@ -143,9 +130,7 @@ export function CredentialsSection() {
 
         {/* GitHub activity */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          {...revealUp(isInView, { y: 30, duration: 0.6, delay: 0.6 })}
           className="mt-16 p-8 bg-secondary rounded-2xl"
         >
           <p className="text-xs font-medium tracking-wider text-muted-foreground mb-4">

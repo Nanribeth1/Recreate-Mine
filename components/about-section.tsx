@@ -1,10 +1,10 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
-import { useRef } from "react"
 import Link from "next/link"
 import { Github, Linkedin } from "lucide-react"
+import { useInViewOnce } from "@/hooks/use-in-view-once"
+import { revealUp } from "@/lib/animations"
 
 const stats = [
   { value: "3+", label: "YEARS OF EXPERIENCE" },
@@ -14,17 +14,14 @@ const stats = [
 ]
 
 export function AboutSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const { ref, isInView } = useInViewOnce()
 
   return (
     <section id="about" className="py-24 px-6 md:px-12 lg:px-20 bg-background" ref={ref}>
       <div className="max-w-7xl mx-auto">
         {/* Section label */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
+          {...revealUp(isInView)}
           className="text-xs font-medium tracking-wider text-muted-foreground mb-6"
         >
           01 / ABOUT
@@ -32,9 +29,7 @@ export function AboutSection() {
 
         {/* Title */}
         <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          {...revealUp(isInView, { y: 40, duration: 0.6, delay: 0.1 })}
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter"
         >
           About<span className="font-serif italic font-normal text-muted-foreground">Me</span>
@@ -43,17 +38,13 @@ export function AboutSection() {
         <div className="grid lg:grid-cols-2 gap-16 mt-16">
           {/* Stats */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            {...revealUp(isInView, { y: 30, duration: 0.6, delay: 0.2 })}
             className="grid grid-cols-2 gap-8"
           >
             {stats.map((stat, index) => (
               <div key={stat.label} className="border-b border-border pb-6">
                 <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                  {...revealUp(isInView, { delay: 0.3 + index * 0.1 })}
                   className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter"
                 >
                   {stat.value}
@@ -67,9 +58,7 @@ export function AboutSection() {
 
           {/* Description */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            {...revealUp(isInView, { y: 30, duration: 0.6, delay: 0.3 })}
             className="space-y-8"
           >
             <p className="text-2xl md:text-3xl lg:text-4xl font-serif italic leading-relaxed">

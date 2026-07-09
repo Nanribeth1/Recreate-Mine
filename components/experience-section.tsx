@@ -1,8 +1,9 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
-import { useRef } from "react"
+import { useInViewOnce } from "@/hooks/use-in-view-once"
+import { revealUp } from "@/lib/animations"
+import { Tag } from "@/components/tag"
 
 const experiences = [
   {
@@ -61,17 +62,14 @@ const experiences = [
 ]
 
 export function ExperienceSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const { ref, isInView } = useInViewOnce()
 
   return (
     <section id="experience" className="py-24 px-6 md:px-12 lg:px-20 bg-primary text-primary-foreground" ref={ref}>
       <div className="max-w-7xl mx-auto">
         {/* Section label */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
+          {...revealUp(isInView)}
           className="text-xs font-medium tracking-wider text-primary-foreground/60 mb-6"
         >
           04 / EXPERIENCE
@@ -79,9 +77,7 @@ export function ExperienceSection() {
 
         {/* Title */}
         <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          {...revealUp(isInView, { y: 40, duration: 0.6, delay: 0.1 })}
           className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter mb-16"
         >
           Where <span className="font-serif italic font-normal text-primary-foreground/60">I&apos;ve</span> Worked
@@ -93,9 +89,7 @@ export function ExperienceSection() {
             {experiences.map((exp, index) => (
               <motion.div
                 key={exp.number}
-                initial={{ opacity: 0, y: 40 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
+                {...revealUp(isInView, { y: 40, duration: 0.6, delay: 0.2 + index * 0.1 })}
                 className="flex-shrink-0 w-[340px] md:w-[400px] bg-primary-foreground/5 rounded-2xl p-6 border border-primary-foreground/10 snap-start"
               >
                 {/* Header */}
@@ -131,12 +125,9 @@ export function ExperienceSection() {
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2">
                   {exp.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2.5 py-1 bg-primary-foreground/10 text-[10px] font-medium tracking-wider rounded-full"
-                    >
+                    <Tag key={tag} className="px-2.5 py-1 bg-primary-foreground/10 text-[10px]">
                       {tag}
-                    </span>
+                    </Tag>
                   ))}
                 </div>
               </motion.div>

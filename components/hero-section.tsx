@@ -1,8 +1,10 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ArrowRight, ArrowDown } from "lucide-react"
+import { ArrowDown } from "lucide-react"
 import Link from "next/link"
+import { revealUp, revealScale } from "@/lib/animations"
+import { Tag } from "@/components/tag"
 
 const techStack = ["React", "MongoDB", "Java", "POSTGRESQL", "AWS", "DOCKER"]
 
@@ -16,9 +18,7 @@ export function HeroSection() {
       <div className="relative z-10 max-w-7xl mx-auto w-full">
         {/* Status badges */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          {...revealUp(true, { duration: 0.6 })}
           className="flex flex-wrap items-center gap-4 mb-8"
         >
           <div className="flex items-center gap-2 bg-secondary px-4 py-2 rounded-full">
@@ -34,9 +34,7 @@ export function HeroSection() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <motion.h1
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              {...revealUp(true, { y: 40, duration: 0.8, delay: 0.2 })}
               className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.85]"
             >
               Dabit
@@ -45,9 +43,7 @@ export function HeroSection() {
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              {...revealUp(true, { duration: 0.6, delay: 0.4 })}
               className="text-xl md:text-2xl lg:text-3xl font-serif italic text-muted-foreground mt-8 max-w-xl"
             >
               Full Stack Engineer — building systems that hold up under pressure.
@@ -55,26 +51,19 @@ export function HeroSection() {
 
             {/* Tech stack tags */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
+              {...revealUp(true, { duration: 0.6, delay: 0.5 })}
               className="flex flex-wrap gap-2 mt-8"
             >
               {techStack.map((tech) => (
-                <span
-                  key={tech}
-                  className="px-3 py-1.5 bg-secondary text-xs font-medium tracking-wider rounded-full"
-                >
+                <Tag key={tech} className="px-3 py-1.5 bg-secondary text-xs">
                   {tech}
-                </span>
+                </Tag>
               ))}
             </motion.div>
 
             {/* CTA buttons */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              {...revealUp(true, { duration: 0.6, delay: 0.6 })}
               className="flex flex-wrap gap-4 mt-10"
             >
               <Link
@@ -96,6 +85,7 @@ export function HeroSection() {
               transition={{ duration: 0.6, delay: 0.8 }}
               className="mt-16 flex items-center gap-2"
             >
+              {/* opacity-only fade — not a slide/scale reveal */}
               <div className="w-px h-12 bg-border" />
               <span className="text-xs font-medium tracking-wider text-muted-foreground rotate-90 origin-left translate-x-3">
                 SCROLL
@@ -105,9 +95,7 @@ export function HeroSection() {
 
           {/* Hero image placeholder */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            {...revealScale(true, { duration: 0.8, delay: 0.3 })}
             className="hidden lg:flex justify-end items-center"
           >
             <div className="relative w-[400px] h-[500px] bg-gradient-to-b from-secondary to-muted rounded-2xl overflow-hidden">
